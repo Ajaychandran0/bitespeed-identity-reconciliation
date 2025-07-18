@@ -1,10 +1,12 @@
-# Use a Node.js base image
+# ------------------------------
+# Base Stage
+# ------------------------------
 FROM node:20-alpine AS base
 WORKDIR /app
 COPY package*.json ./
 
 # ------------------------------
-# 🛠 Development Stage
+# Development Stage
 # ------------------------------
 FROM base AS dev
 RUN npm install
@@ -13,7 +15,7 @@ EXPOSE 3000
 CMD ["npm", "run", "dev"]
 
 # ------------------------------
-# 🚀 Production Stage
+# Production Stage
 # ------------------------------
 FROM base AS prod
 # Only install production dependencies

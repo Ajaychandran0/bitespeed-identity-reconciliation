@@ -1,14 +1,14 @@
 version: "3.8"
 
 services:
-  postgres:
+  postgres_db:
     image: postgres:16.2
-    container_name: postgres
+    container_name: postgres_db
     restart: always
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres@123}
-      POSTGRES_DB: identity_reconciliation
+      POSTGRES_DB: ${POSTGRES_DB:-identity_reconciliation}
     ports:
       - "5432:5432"
     volumes:
@@ -29,10 +29,16 @@ services:
       - /app/node_modules 
     env_file:
       - ./.env
+    environment:
+      DB_HOST: postgres_db
+      DB_PORT: 5432
+      DB_NAME: ${POSTGRES_DB:-identity_reconciliation}
+      DB_USER: ${POSTGRES_USER:-postgres}
+      DB_PASSWORD: ${POSTGRES_PASSWORD:-postgres@123}
     networks:
       - identity-network
     depends_on:
-      - postgres
+      - postgres_db
 
 volumes:
   db_data:
