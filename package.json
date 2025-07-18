@@ -7,8 +7,11 @@
     "start": "node dist/index.js",
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
     "build": "tsc",
+    "lint": "eslint 'src/**/*.{ts,js}'",
     "migrate": "sequelize-cli db:migrate",
-    "lint": "eslint 'src/**/*.{ts,js}'"
+    "migrate:undo": "sequelize-cli db:migrate:undo",
+    "seed": "sequelize-cli db:seed:all",
+    "seed:undo": "sequelize-cli db:seed:undo:all"
   },
   "author": "Ajay",
   "license": "ISC",
