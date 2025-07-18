@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:16.2
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres@123}
+      POSTGRES_DB: identity_reconciliation
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data # Persist data in case of container restart
+    networks:
+      - identity-network
+
+  app:
+    container_name: identity-reconciliation-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: ${DOCKER_TARGET:-dev}
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules 
+    env_file:
+      - ./.env
+    networks:
+      - identity-network
+    depends_on:
+      - postgres
+
+volumes:
+  db_data:
+
+networks:
+  identity-network:
