@@ -15,12 +15,20 @@ EXPOSE 3000
 CMD ["npm", "run", "dev"]
 
 # ------------------------------
+# Builder Stage (for compiling TypeScript)
+# ------------------------------
+FROM base AS builder
+RUN npm install
+COPY . .
+RUN npm run build
+
+# ------------------------------
 # Production Stage
 # ------------------------------
 FROM base AS prod
 # Only install production dependencies
 RUN npm ci --only=production
-COPY . .
-RUN npm run build
+# Copy only compiled output from builder
+COPY --from=builder /app/dist ./dist
 EXPOSE 3000
 CMD ["npm", "run", "start"]
