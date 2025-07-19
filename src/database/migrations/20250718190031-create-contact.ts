@@ -4,7 +4,7 @@ export = {
   up: async (queryInterface: QueryInterface) => {
     await queryInterface.createTable("Contact", {
       id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.BIGINT,
         autoIncrement: true,
         primaryKey: true,
       },
@@ -17,7 +17,7 @@ export = {
         allowNull: true,
       },
       linkedId: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.BIGINT,
         allowNull: true,
         references: {
           model: "Contact",

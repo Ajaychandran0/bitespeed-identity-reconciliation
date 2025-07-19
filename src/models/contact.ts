@@ -2,10 +2,10 @@ import { DataTypes, Model, Optional } from "sequelize";
 import sequelize from "../database/connection";
 
 export interface ContactAttributes {
-  id: number;
+  id: bigint;
   phoneNumber: string | null;
   email: string | null;
-  linkedId: number | null;
+  linkedId: bigint | null;
   linkPrecedence: "primary" | "secondary";
   createdAt?: Date;
   updatedAt?: Date;
@@ -15,10 +15,10 @@ export interface ContactAttributes {
 export interface ContactCreationAttributes extends Optional<ContactAttributes, "id" | "linkedId" | "phoneNumber" | "email"> {}
 
 class Contact extends Model<ContactAttributes, ContactCreationAttributes> implements ContactAttributes {
-  public id!: number;
+  public id!: bigint;
   public phoneNumber!: string | null;
   public email!: string | null;
-  public linkedId!: number | null;
+  public linkedId!: bigint | null;
   public linkPrecedence!: "primary" | "secondary";
 
   public readonly createdAt!: Date;
@@ -29,7 +29,7 @@ class Contact extends Model<ContactAttributes, ContactCreationAttributes> implem
 Contact.init(
   {
     id: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
       autoIncrement: true,
       primaryKey: true,
     },
@@ -42,7 +42,7 @@ Contact.init(
       allowNull: true,
     },
     linkedId: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
       allowNull: true,
     },
     linkPrecedence: {
@@ -60,3 +60,7 @@ Contact.init(
 );
 
 export default Contact;
+
+// Associations
+Contact.hasMany(Contact, { foreignKey: "linkedId", as: "secondaryContacts" })
+
