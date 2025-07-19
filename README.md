@@ -1,28 +1,54 @@
-# Identity Reconciliation - Bitespeed Backend Assignment
+# Bitespeed Identity Reconciliation
 
-This is a backend system that solves the **identity reconciliation problem**, where different customer entries (via phone, email, etc.) may refer to the same individual. The system consolidates such partial identities and maintains a unified view of a customer.
-
----
-
-## Features
-
-- Accepts user identities via phone/email
-- Reconciles partial identities into a primary customer profile
-- Handles new or duplicate identities gracefully
+This is a simple backend service built for Bitespeed's identity reconciliation task.  
+It accepts user contact details (email/phone) and links them under a common identity.
 
 ---
 
-## Tech Stack
+## 🔗 Hosted URL
 
-| Layer       | Technology             |
-|-------------|------------------------|
-| Language    | TypeScript             |
-| Runtime     | Node.js (v18+)         |
-| Framework   | Express.js             |
-| Database    | PostgreSQL             |
-| ORM         | Sequelize              |
-| Dev Tools   | Docker, ts-node-dev    |
-| Linting     | ESLint                 |
-| Logging     | Morgan                 |
+https://bitespeed-identity-reconciliation-xhfu.onrender.com
 
 ---
+
+## 🧪 API Endpoint
+
+### `POST /identify`
+
+Send contact info (email or phoneNumber) to find or create a linked identity.
+
+Example request:
+```json
+{
+  "email": "john@example.com",
+  "phoneNumber": "1234567890"
+}
+```
+
+---
+
+## 🐳 Run Locally with Docker
+
+```bash
+# Build and start the service
+docker-compose up --build
+```
+
+---
+
+## 🧱 Database Migration
+
+To run migrations:
+```bash
+npm run migrate
+```
+
+---
+
+## 📁 Project Structure
+
+- `src/` – Express app code
+- `src/database/` – Sequelize migrations
+- `docker-compose.yml` – For local setup
+- `Dockerfile` – App container
+
